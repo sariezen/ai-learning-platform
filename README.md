@@ -14,10 +14,11 @@ A full-stack web application where users select a learning category and sub-cate
 | Database   | MySQL 8.0                           |
 | ORM        | TypeORM (with auto-sync)            |
 | Auth       | JWT (bcryptjs + jsonwebtoken)       |
-| AI Engine  | OpenAI GPT-3.5-turbo               |
+| AI Engine  | OpenAI GPT-4o                       |
 | Frontend   | Angular 17 + TypeScript             |
 | Docs       | Swagger / OpenAPI 3.0               |
 | Infra      | Docker Compose (MySQL)              |
+| Tests      | Jest + ts-jest                      |
 
 ---
 
@@ -29,22 +30,26 @@ ai-learning-platform/
 │   ├── src/
 │   │   ├── config/          # Database & Swagger config
 │   │   ├── controllers/     # Auth, Category, Prompt, Admin
-│   │   ├── middlewares/      # JWT auth & validation
-│   │   ├── models/           # TypeORM entities (User, Category, SubCategory, Prompt)
-│   │   ├── routes/           # Express routes with Swagger JSDoc
-│   │   ├── services/         # OpenAI integration
-│   │   ├── utils/            # Database seed script
-│   │   └── server.ts         # Express entry point
+│   │   ├── middlewares/     # JWT auth & validation
+│   │   ├── models/          # TypeORM entities (User, Category, SubCategory, Prompt)
+│   │   ├── routes/          # Express routes with Swagger JSDoc
+│   │   ├── services/        # OpenAI integration
+│   │   ├── tests/           # Jest unit tests
+│   │   ├── utils/           # Database seed script
+│   │   └── server.ts        # Express entry point
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── .env.example
 ├── frontend/
 │   └── src/app/
-│       ├── components/       # Login, Register, Dashboard, Admin
-│       ├── services/         # AuthService, ApiService
-│       ├── guards/           # Auth & Admin route guards
-│       ├── interceptors/     # JWT HTTP interceptor
-│       └── models/           # TypeScript interfaces
+│       ├── components/
+│       │   ├── admin/       # admin.component.ts/html/scss
+│       │   ├── auth/        # login & register components
+│       │   └── dashboard/   # dashboard.component.ts/html/scss
+│       ├── services/        # AuthService, ApiService
+│       ├── guards/          # Auth & Admin route guards
+│       ├── interceptors/    # JWT HTTP interceptor
+│       └── models/          # TypeScript interfaces
 ├── docker-compose.yml
 └── README.md
 ```
@@ -106,6 +111,15 @@ Frontend runs on **http://localhost:4200**
 
 ---
 
+## Running Tests
+
+```bash
+cd backend
+npm test
+```
+
+---
+
 ## Default Accounts
 
 | Role  | Email               | Password  |
@@ -150,12 +164,13 @@ Register a new account via the UI to get a regular user.
 
 - **JWT Authentication** — register, login, protected routes
 - **Role-based Access** — user vs admin permissions
-- **AI-Powered Lessons** — OpenAI GPT integration with fallback mock
+- **AI-Powered Lessons** — OpenAI GPT-4o integration with fallback mock
 - **Learning History** — paginated history per user
 - **Admin Dashboard** — view all users and prompts, filter by user
 - **Swagger API Docs** — interactive API documentation
 - **Input Validation** — server-side request validation
 - **Docker Support** — MySQL via Docker Compose
+- **Unit Tests** — Jest tests for auth controller
 
 ---
 
