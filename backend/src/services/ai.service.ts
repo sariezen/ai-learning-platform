@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export const generateLesson = async (
@@ -12,7 +12,7 @@ export const generateLesson = async (
   subCategory: string,
   userPrompt: string
 ): Promise<string> => {
-  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'sk-your-gemini-api-key-here') {
+  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'sk-your-openai-api-key-here') {
     return getMockResponse(category, subCategory, userPrompt);
   }
 
@@ -47,5 +47,5 @@ function getMockResponse(
   subCategory: string,
   prompt: string
 ): string {
-  return `📚 **Lesson: ${category} — ${subCategory}**\n\nGreat question! You asked: "${prompt}"\n\nHere is a structured lesson on this topic:\n\n**1. Introduction**\nThis topic falls under ${category}, specifically in ${subCategory}. It is a fundamental area of study with practical applications.\n\n**2. Key Concepts**\n- Concept A: Core principle related to your question\n- Concept B: Supporting theory and context\n- Concept C: Real-world application\n\n**3. Example**\nConsider a scenario where this knowledge is applied in practice...\n\n**4. Summary**\nUnderstanding ${subCategory} within ${category} gives you a solid foundation to build upon.\n\n---\n*This is a mock response. Connect your OpenAI API key in .env for real AI-generated lessons.*`;
+  return ` **Lesson: ${category} — ${subCategory}**\n\nGreat question! You asked: "${prompt}"\n\nHere is a structured lesson on this topic:\n\n**1. Introduction**\nThis topic falls under ${category}, specifically in ${subCategory}. It is a fundamental area of study with practical applications.\n\n**2. Key Concepts**\n- Concept A: Core principle related to your question\n- Concept B: Supporting theory and context\n- Concept C: Real-world application\n\n**3. Example**\nConsider a scenario where this knowledge is applied in practice...\n\n**4. Summary**\nUnderstanding ${subCategory} within ${category} gives you a solid foundation to build upon.\n\n---\n*This is a mock response. Connect your OpenAI API key in .env for real AI-generated lessons.*`;
 }

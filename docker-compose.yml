@@ -6,7 +6,7 @@ services:
     container_name: learning_platform_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ai_learning_platform
     ports:
       - '3307:3306'
