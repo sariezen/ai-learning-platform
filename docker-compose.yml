@@ -18,5 +18,26 @@ services:
       timeout: 5s
       retries: 5
 
+  backend:
+    build: ./backend
+    container_name: learning_platform_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - '3000:3000'
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: learning_platform_frontend
+    restart: unless-stopped
+    ports:
+      - '4200:80'
+    depends_on:
+      - backend
+
 volumes:
   mysql_data:

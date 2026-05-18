@@ -58,6 +58,31 @@ ai-learning-platform/
 
 ## Getting Started
 
+### Option 1: Run with Docker (Full Stack)
+
+The easiest way to run the entire project:
+
+```bash
+# Copy and fill in your .env file
+cp backend/.env.example backend/.env
+
+# Run everything (MySQL + Backend + Frontend)
+docker-compose up --build
+```
+
+- Frontend: **http://localhost:4200**
+- Backend: **http://localhost:3000**
+- Swagger: **http://localhost:3000/api-docs**
+
+> After first run, seed the database:
+```bash
+docker exec learning_platform_backend npx ts-node src/utils/seed.ts
+```
+
+---
+
+### Option 2: Run Locally
+
 ### 1. Start MySQL (Docker)
 
 ```bash
