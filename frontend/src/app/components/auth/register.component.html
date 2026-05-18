@@ -1,0 +1,36 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Register</h2>
+    <p class="subtitle">Create your learning account</p>
+
+    <div class="error-msg" *ngIf="error">{{ error }}</div>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input id="name" type="text" [(ngModel)]="name" placeholder="Your name" />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input id="phone" type="tel" [(ngModel)]="phone" placeholder="0501234567" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" [(ngModel)]="email" placeholder="your@email.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" [(ngModel)]="password" placeholder="Min. 6 characters" />
+    </div>
+
+    <button class="btn-primary" (click)="onRegister()" [disabled]="loading">
+      {{ loading ? 'Creating account...' : 'Register' }}
+    </button>
+
+    <p class="switch-auth">
+      Already have an account? <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

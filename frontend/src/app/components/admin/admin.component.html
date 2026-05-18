@@ -1,0 +1,96 @@
+<div class="admin">
+  <header class="header">
+    <div class="header-left">
+      <h1>Admin Panel</h1>
+    </div>
+    <div class="header-right">
+      <button class="btn-outline" (click)="goBack()">Back to Dashboard</button>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button [class.active]="activeTab === 'users'" (click)="activeTab = 'users'; loadUsers(1)">
+        Users
+      </button>
+      <button [class.active]="activeTab === 'prompts'" (click)="activeTab = 'prompts'; loadPrompts(1)">
+        All Prompts
+      </button>
+    </div>
+
+    <!-- Users Tab -->
+    <div class="card" *ngIf="activeTab === 'users'">
+      <h2>All Users</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td><span class="role-badge" [class.admin]="user.role === 'admin'">{{ user.role }}</span></td>
+            <td>{{ user.created_at | date: 'shortDate' }}</td>
+            <td>
+              <button class="btn-sm" (click)="filterByUser(user.id)">View Prompts</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination" *ngIf="usersTotalPages > 1">
+        <button (click)="loadUsers(usersPage - 1)" [disabled]="usersPage <= 1">Prev</button>
+        <span>Page {{ usersPage }} of {{ usersTotalPages }}</span>
+        <button (click)="loadUsers(usersPage + 1)" [disabled]="usersPage >= usersTotalPages">Next</button>
+      </div>
+    </div>
+
+    <!-- Prompts Tab -->
+    <div class="card" *ngIf="activeTab === 'prompts'">
+      <div class="prompts-header">
+        <h2>All Prompts</h2>
+        <div class="filter-group" *ngIf="filterUserId">
+          <span class="filter-badge">Filtered by User #{{ filterUserId }}</span>
+          <button class="btn-sm" (click)="clearFilter()">Clear Filter</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Category</th>
+            <th>Prompt</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of prompts">
+            <td>{{ p.id }}</td>
+            <td>{{ p.user_name }}</td>
+            <td>{{ p.category }} › {{ p.sub_category }}</td>
+            <td class="truncate">{{ p.prompt }}</td>
+            <td>{{ p.created_at | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="prompts.length === 0" class="empty-state">No prompts found.</div>
+      <div class="pagination" *ngIf="promptsTotalPages > 1">
+        <button (click)="loadPrompts(promptsPage - 1)" [disabled]="promptsPage <= 1">Prev</button>
+        <span>Page {{ promptsPage }} of {{ promptsTotalPages }}</span>
+        <button (click)="loadPrompts(promptsPage + 1)" [disabled]="promptsPage >= promptsTotalPages">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

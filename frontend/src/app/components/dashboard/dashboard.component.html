@@ -1,0 +1,99 @@
+<div class="dashboard">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <h1>AI Learning Platform</h1>
+    </div>
+    <div class="header-right">
+      <span class="user-name">{{ userName }}</span>
+      <button class="btn-outline" *ngIf="isAdmin" (click)="goAdmin()">Admin Panel</button>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Learning Form -->
+    <div class="card learn-card">
+      <h2>Start Learning</h2>
+      <p class="card-subtitle">Select a topic and ask anything</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
+            <option [ngValue]="0">-- Select Category --</option>
+            <option *ngFor="let cat of categories" [ngValue]="cat.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Sub-Category</label>
+          <select [(ngModel)]="selectedSubCategoryId" [disabled]="!subCategories.length">
+            <option [ngValue]="0">-- Select Sub-Category --</option>
+            <option *ngFor="let sub of subCategories" [ngValue]="sub.id">
+              {{ sub.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Prompt</label>
+        <textarea
+          [(ngModel)]="promptText"
+          rows="3"
+          placeholder="e.g., Teach me about black holes"
+        ></textarea>
+      </div>
+
+      <button
+        class="btn-primary"
+        (click)="submitPrompt()"
+        [disabled]="submitting || !selectedCategoryId || !selectedSubCategoryId || !promptText.trim()"
+      >
+        {{ submitting ? 'Generating lesson...' : 'Get Lesson' }}
+      </button>
+
+      <div class="error-msg" *ngIf="error">{{ error }}</div>
+    </div>
+
+    <!-- AI Response -->
+    <div class="card response-card" *ngIf="lastResponse">
+      <h3>AI Lesson</h3>
+      <div class="response-meta">
+        <span>{{ lastResponse.category }}</span>
+        <span class="separator">›</span>
+        <span>{{ lastResponse.sub_category }}</span>
+      </div>
+      <div class="prompt-text">
+        <strong>You asked:</strong> {{ lastResponse.prompt }}
+      </div>
+      <div class="response-text">{{ lastResponse.response }}</div>
+    </div>
+
+    <!-- History -->
+    <div class="card history-card">
+      <h2>Learning History</h2>
+      <div *ngIf="history.length === 0" class="empty-state">
+        No lessons yet. Start learning above!
+      </div>
+      <div class="history-list">
+        <div class="history-item" *ngFor="let item of history" (click)="viewLesson(item)">
+          <div class="history-meta">
+            <span class="badge">{{ item.category }} › {{ item.sub_category }}</span>
+            <span class="date">{{ item.created_at | date: 'short' }}</span>
+          </div>
+          <p class="history-prompt">{{ item.prompt }}</p>
+        </div>
+      </div>
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button (click)="loadHistory(currentPage - 1)" [disabled]="currentPage <= 1">Prev</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="loadHistory(currentPage + 1)" [disabled]="currentPage >= totalPages">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
